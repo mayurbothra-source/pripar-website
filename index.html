@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pripar AI — Custom Software & AI Tools for UK Businesses</title>
+<meta name="description" content="Pripar AI builds custom software, AI tools, and digital solutions for UK tradespeople and e-commerce businesses.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg:       #0C0E12;
+  --bg2:      #10131A;
+  --bg3:      #141820;
+  --card:     #13161E;
+  --border:   rgba(255,255,255,0.07);
+  --border2:  rgba(255,255,255,0.12);
+  --gold:     #C9A96E;
+  --gold2:    #E8C98A;
+  --teal:     #3D7A78;
+  --teal2:    #5A9E9B;
+  --white:    #F5F3EF;
+  --grey:     #7A8094;
+  --grey2:    #9AA0B4;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans:  'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 6%;
+  height: 72px;
+  background: rgba(12,14,18,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--font-serif);
+  font-size: 1.5rem; font-weight: 400; letter-spacing: 0.06em;
+  color: var(--white); text-decoration: none;
+}
+.nav-logo em { font-style: italic; color: var(--gold); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  color: var(--grey); text-decoration: none;
+  font-size: 0.78rem; font-weight: 400; letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.25s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  color: var(--gold) !important;
+  border-bottom: 1px solid rgba(201,169,110,0.4) !important;
+  padding-bottom: 1px;
+}
+.nav-cta:hover { color: var(--gold2) !important; border-color: var(--gold2) !important; }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; background: none; border: none;
+}
+.hamburger span {
+  display: block; width: 22px; height: 1px;
+  background: var(--grey); transition: all 0.3s;
+}
+.mobile-menu {
+  display: none; position: fixed; top: 72px; left: 0; right: 0;
+  background: var(--bg2); padding: 2rem 6%;
+  border-bottom: 1px solid var(--border); z-index: 99;
+  flex-direction: column; gap: 1.2rem;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  color: var(--grey); text-decoration: none;
+  font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding-bottom: 1rem; border-bottom: 1px solid var(--border);
+}
+
+/* ── DIVIDER ── */
+.rule {
+  width: 40px; height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin-bottom: 1.5rem;
+}
+.rule-center { margin: 0 auto 1.5rem; }
+
+/* ── HERO ── */
+#home {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 140px 6% 100px;
+  background:
+    radial-gradient(ellipse 60% 80% at 100% 50%, rgba(61,122,120,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 0% 100%, rgba(201,169,110,0.04) 0%, transparent 60%),
+    var(--bg);
+  position: relative;
+}
+.hero-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.1fr 0.9fr;
+  gap: 6rem; align-items: center;
+}
+.hero-eyebrow {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 1.8rem;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-eyebrow::before {
+  content: ''; display: block;
+  width: 32px; height: 1px;
+  background: var(--gold);
+}
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+  font-weight: 300; line-height: 1.08;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.8rem;
+  color: var(--white);
+}
+.hero-title em {
+  font-style: italic; color: var(--gold);
+}
+.hero-sub {
+  font-size: 0.95rem; color: var(--grey2);
+  line-height: 1.8; margin-bottom: 2.8rem;
+  max-width: 440px; font-weight: 300;
+}
+.hero-actions { display: flex; gap: 1.2rem; flex-wrap: wrap; align-items: center; }
+.btn-primary {
+  background: transparent;
+  color: var(--gold);
+  padding: 13px 28px;
+  border: 1px solid rgba(201,169,110,0.5);
+  font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer;
+  transition: all 0.25s;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-primary:hover {
+  background: rgba(201,169,110,0.08);
+  border-color: var(--gold);
+}
+.btn-ghost {
+  color: var(--grey2); font-size: 0.75rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  text-decoration: none; font-weight: 400;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: color 0.2s;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+}
+.btn-ghost:hover { color: var(--white); border-color: rgba(255,255,255,0.2); }
+
+.hero-stats {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 0; margin-top: 3.5rem;
+  border: 1px solid var(--border);
+}
+.stat {
+  padding: 1.4rem 1.2rem;
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+.stat:last-child { border-right: none; }
+.stat::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.stat-num {
+  font-family: var(--font-serif);
+  font-size: 2rem; font-weight: 300; color: var(--gold);
+  display: block; line-height: 1;
+  margin-bottom: 0.4rem;
+}
+.stat-label { font-size: 0.7rem; color: var(--grey); letter-spacing: 0.08em; line-height: 1.4; }
+
+/* Hero right visual */
+.hero-visual { position: relative; }
+.terminal {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  position: relative; overflow: hidden;
+}
+.terminal::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.terminal-bar {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot-r { background: rgba(255,100,100,0.4); }
+.dot-y { background: rgba(255,200,80,0.4); }
+.dot-g { background: rgba(80,200,80,0.4); }
+.terminal-title {
+  font-size: 0.7rem; color: var(--grey); letter-spacing: 0.1em;
+  margin-left: auto; margin-right: auto;
+}
+.terminal-body { padding: 1.4rem; }
+.t-line {
+  font-family: 'Courier New', monospace;
+  font-size: 0.78rem; line-height: 1.9; color: var(--grey2);
+  display: flex; gap: 10px;
+}
+.t-prompt { color: var(--teal2); }
+.t-key { color: var(--gold); }
+.t-val { color: var(--white); }
+.t-comment { color: rgba(255,255,255,0.25); }
+.t-divider {
+  border: none; border-top: 1px solid var(--border);
+  margin: 0.6rem 0;
+}
+.t-status {
+  display: flex; align-items: center; gap: 8px;
+  padding: 0.6rem 0.8rem;
+  background: rgba(61,122,120,0.08);
+  border: 1px solid rgba(61,122,120,0.15);
+  margin-top: 0.8rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem; color: var(--teal2);
+}
+.t-dot-live {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--teal2);
+  animation: blink 2s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ── SHARED ── */
+section { padding: 100px 6%; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-eyebrow {
+  font-size: 0.68rem; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 1.2rem;
+}
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 300; line-height: 1.15;
+  margin-bottom: 1.2rem;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+.section-sub {
+  font-size: 0.9rem; color: var(--grey2);
+  max-width: 520px; line-height: 1.8;
+  font-weight: 300; margin-bottom: 3rem;
+}
+
+/* ── NICHES ── */
+#niches { background: var(--bg2); }
+.niches-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--border); border: 1px solid var(--border);
+}
+.niche-card {
+  background: var(--bg2);
+  padding: 2.5rem;
+  transition: background 0.25s;
+  position: relative;
+}
+.niche-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.niche-card:hover { background: var(--card); }
+.niche-card:hover::before { opacity: 1; }
+.niche-num {
+  font-family: var(--font-serif);
+  font-size: 3.5rem; font-weight: 300; color: rgba(201,169,110,0.15);
+  line-height: 1; margin-bottom: 1rem;
+}
+.niche-title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem; font-weight: 400;
+  margin-bottom: 0.8rem;
+}
+.niche-desc { font-size: 0.85rem; color: var(--grey2); line-height: 1.75; margin-bottom: 1.5rem; }
+.niche-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tag {
+  font-size: 0.67rem; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border: 1px solid rgba(201,169,110,0.2);
+  color: rgba(201,169,110,0.7);
+}
+
+/* ── SERVICES ── */
+#services { background: var(--bg); }
+.services-header { margin-bottom: 3.5rem; }
+.starter-block {
+  border: 1px solid rgba(201,169,110,0.2);
+  padding: 2.5rem;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 3rem;
+  margin-bottom: 1px; flex-wrap: wrap;
+  background: rgba(201,169,110,0.03);
+  position: relative;
+}
+.starter-block::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.starter-tag {
+  font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--gold);
+  border: 1px solid rgba(201,169,110,0.3);
+  padding: 3px 10px; display: inline-block; margin-bottom: 0.8rem;
+}
+.starter-title {
+  font-family: var(--font-serif);
+  font-size: 1.6rem; font-weight: 400; margin-bottom: 0.6rem;
+}
+.starter-desc { font-size: 0.85rem; color: var(--grey2); line-height: 1.75; max-width: 480px; }
+.starter-price-block { text-align: center; flex-shrink: 0; }
+.starter-price {
+  font-family: var(--font-serif);
+  font-size: 3.5rem; font-weight: 300; color: var(--gold); line-height: 1;
+}
+.starter-price-label { font-size: 0.7rem; color: var(--grey); letter-spacing: 0.1em; margin-top: 6px; }
+
+.packages-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border); border-top: none;
+  margin-bottom: 3rem;
+}
+.pkg-card {
+  background: var(--bg);
+  padding: 2rem;
+  transition: background 0.25s;
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.pkg-card:hover { background: var(--card); }
+.pkg-letter {
+  font-family: var(--font-serif);
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em;
+  color: var(--teal2); margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+.pkg-name {
+  font-family: var(--font-serif);
+  font-size: 1.15rem; font-weight: 400; margin-bottom: 0.5rem;
+}
+.pkg-price {
+  font-family: var(--font-serif);
+  font-size: 1.6rem; font-weight: 300; color: var(--gold);
+  margin-bottom: 0.2rem;
+}
+.pkg-delivery { font-size: 0.7rem; color: var(--grey); letter-spacing: 0.08em; margin-bottom: 1rem; }
+.pkg-div { width: 24px; height: 1px; background: var(--border2); margin-bottom: 1rem; }
+.pkg-desc { font-size: 0.82rem; color: var(--grey2); line-height: 1.7; flex: 1; }
+.pkg-for {
+  font-size: 0.72rem; color: var(--teal2);
+  margin-top: 1rem; padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  letter-spacing: 0.04em;
+}
+
+.retainer-label {
+  font-size: 0.68rem; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--grey);
+  margin-bottom: 1rem;
+}
+.retainer-grid {
+  display: grid; grid-template-columns: repeat(5,1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+}
+.ret-card {
+  background: var(--bg3);
+  padding: 1.4rem;
+  text-align: center;
+  transition: background 0.2s;
+}
+.ret-card:hover { background: var(--card); }
+.ret-name { font-size: 0.72rem; color: var(--grey); letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+.ret-price {
+  font-family: var(--font-serif);
+  font-size: 1.3rem; font-weight: 300; color: var(--gold);
+}
+.ret-period { font-size: 0.65rem; color: var(--grey); margin-top: 3px; }
+
+/* ── CASE STUDIES ── */
+#case-studies { background: var(--bg2); }
+.case-card {
+  border: 1px solid var(--border);
+  padding: 3rem;
+  margin-bottom: 1px;
+  background: var(--bg2);
+  position: relative;
+  transition: background 0.25s;
+}
+.case-card:hover { background: var(--card); }
+.case-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; width: 1px; bottom: 0;
+  background: linear-gradient(180deg, var(--gold), transparent);
+}
+.case-header {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 3rem; align-items: start; margin-bottom: 2rem;
+}
+.case-client {
+  font-size: 0.68rem; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--teal2); margin-bottom: 0.6rem;
+}
+.case-title {
+  font-family: var(--font-serif);
+  font-size: 1.6rem; font-weight: 400; margin-bottom: 0.8rem;
+}
+.case-summary { font-size: 0.85rem; color: var(--grey2); line-height: 1.8; max-width: 520px; }
+.case-metrics { display: flex; flex-direction: column; gap: 1rem; flex-shrink: 0; }
+.case-metric { text-align: right; }
+.case-metric-val {
+  font-family: var(--font-serif);
+  font-size: 1.6rem; font-weight: 300; color: var(--gold);
+  display: block; line-height: 1;
+}
+.case-metric-label { font-size: 0.68rem; color: var(--grey); letter-spacing: 0.08em; margin-top: 3px; }
+.case-features {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  padding-top: 2rem; border-top: 1px solid var(--border);
+}
+.feature-pill {
+  font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border: 1px solid var(--border2);
+  color: var(--grey2);
+}
+
+/* ── ABOUT ── */
+#about { background: var(--bg); }
+.about-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 6rem; align-items: start;
+}
+.about-points { list-style: none; margin-top: 2rem; }
+.about-points li {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem; line-height: 1.6; color: var(--grey2);
+}
+.about-points li:last-child { border-bottom: none; }
+.about-check { color: var(--gold); flex-shrink: 0; margin-top: 1px; font-size: 0.7rem; }
+.about-card {
+  padding: 1.8rem;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  background: var(--card);
+  position: relative;
+}
+.about-card:first-child::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.about-card:last-child { border-bottom: 1px solid var(--border); }
+.about-card-label {
+  font-size: 0.65rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem;
+}
+.about-card-val { font-family: var(--font-serif); font-size: 1rem; font-weight: 400; line-height: 1.5; }
+.tech-grid {
+  display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem;
+}
+.tech-pill {
+  font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 3px 9px; border: 1px solid rgba(61,122,120,0.3); color: var(--teal2);
+}
+
+/* ── CONTACT ── */
+#contact { background: var(--bg2); }
+.contact-inner { max-width: 700px; margin: 0 auto; }
+.contact-inner .section-sub { max-width: 100%; }
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border); margin-bottom: 2rem;
+}
+.contact-card {
+  background: var(--bg2);
+  padding: 1.8rem;
+  transition: background 0.2s;
+}
+.contact-card:hover { background: var(--card); }
+.contact-card-label {
+  font-size: 0.65rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--grey); margin-bottom: 0.5rem;
+}
+.contact-card-val { font-family: var(--font-serif); font-size: 1rem; }
+.contact-card-val a { color: var(--gold); text-decoration: none; transition: color 0.2s; }
+.contact-card-val a:hover { color: var(--gold2); }
+.contact-note {
+  border: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+  background: rgba(201,169,110,0.03);
+}
+.contact-note p { font-size: 0.85rem; color: var(--grey2); line-height: 1.8; }
+.contact-note a { color: var(--gold); text-decoration: none; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 2rem 6%;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-logo {
+  font-family: var(--font-serif);
+  font-size: 1.1rem; font-weight: 300; letter-spacing: 0.08em;
+}
+.footer-logo em { font-style: italic; color: var(--gold); }
+.footer-links { display: flex; gap: 2rem; list-style: none; }
+.footer-links a {
+  color: var(--grey); text-decoration: none;
+  font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--white); }
+.footer-copy { font-size: 0.72rem; color: var(--grey); letter-spacing: 0.05em; }
+
+/* ── FADE ANIMATION ── */
+.fade-up { opacity:0; transform:translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width:900px) {
+  .hero-inner { grid-template-columns:1fr; gap:3rem; }
+  .hero-visual { display:none; }
+  .niches-grid { grid-template-columns:1fr; }
+  .packages-grid { grid-template-columns:1fr 1fr; }
+  .retainer-grid { grid-template-columns:repeat(3,1fr); }
+  .about-inner { grid-template-columns:1fr; gap:3rem; }
+  .case-header { grid-template-columns:1fr; }
+  .case-metrics { flex-direction:row; }
+  .case-metric { text-align:left; }
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+  footer { flex-direction:column; text-align:center; }
+  .footer-links { justify-content:center; }
+}
+@media (max-width:600px) {
+  section { padding:70px 5%; }
+  .packages-grid { grid-template-columns:1fr; }
+  .retainer-grid { grid-template-columns:1fr 1fr; }
+  .hero-stats { grid-template-columns:1fr; }
+  .contact-grid { grid-template-columns:1fr; }
+  .hero-title { font-size:2.4rem; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .fade-up { opacity:1; transform:none; transition:none; }
+  .t-dot-live { animation:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">Pripar <em>AI</em></a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#case-studies">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" onclick="closeMenu()">Home</a>
+  <a href="#services" onclick="closeMenu()">Services</a>
+  <a href="#case-studies" onclick="closeMenu()">Work</a>
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">UK Registered Agency</div>
+      <h1 class="hero-title">
+        Software that works<br>
+        as hard as<br>
+        <em>your business does</em>
+      </h1>
+      <p class="hero-sub">
+        We build custom AI-powered software, automation tools, and digital
+        solutions for UK tradespeople and e-commerce businesses —
+        delivered in weeks, not months.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Begin a conversation →</a>
+        <a href="#case-studies" class="btn-ghost">View our work →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">50+</span>
+          <span class="stat-label">Users on live<br>systems</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">2</span>
+          <span class="stat-label">Production apps<br>delivered</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">£299</span>
+          <span class="stat-label">Projects starting<br>from</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+          <div class="terminal-title">prodtrack.live — dashboard</div>
+        </div>
+        <div class="terminal-body">
+          <div class="t-line"><span class="t-prompt">›</span><span class="t-key">system</span><span class="t-val">&nbsp;ProdTrack v2.4</span></div>
+          <div class="t-line"><span class="t-prompt">›</span><span class="t-key">machines</span><span class="t-val">&nbsp;24 active / 28 total</span></div>
+          <div class="t-line"><span class="t-prompt">›</span><span class="t-key">yield</span><span class="t-val">&nbsp;94.2% — </span><span style="color:var(--teal2)">PASS ✓</span></div>
+          <hr class="t-divider">
+          <div class="t-line"><span class="t-prompt">›</span><span class="t-key">units_today</span><span class="t-val">&nbsp;12,847</span></div>
+          <div class="t-line"><span class="t-prompt">›</span><span class="t-key">qc_signoff</span><span class="t-val">&nbsp;complete</span></div>
+          <div class="t-line"><span class="t-prompt">›</span><span class="t-key">breakdowns</span><span class="t-val">&nbsp;1 — escalated</span></div>
+          <hr class="t-divider">
+          <div class="t-line"><span class="t-prompt">›</span><span class="t-key">ai_reading</span><span class="t-val">&nbsp;photo processed</span></div>
+          <div class="t-line t-comment">&nbsp;&nbsp;# Gemini 2.0 Flash · 0.8s</div>
+          <div class="t-status">
+            <div class="t-dot-live"></div>
+            Live · 50+ users · React + Supabase
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE HELP -->
+<section id="niches">
+  <div class="section-inner">
+    <div class="fade-up" style="margin-bottom:3rem">
+      <div class="section-eyebrow">Who We Help</div>
+      <div class="rule"></div>
+      <h2 class="section-title">Two markets.<br><em>Served exceptionally well.</em></h2>
+      <p class="section-sub">We focus on two industries we understand deeply — so every solution reflects the way these businesses actually work.</p>
+    </div>
+    <div class="niches-grid fade-up">
+      <div class="niche-card">
+        <div class="niche-num">01</div>
+        <h3 class="niche-title">Local Tradespeople</h3>
+        <p class="niche-desc">Plumbers, electricians, builders, roofers, and every skilled trade in between. We help you present professionally online, manage jobs digitally, and reclaim the hours lost to admin that should be automated.</p>
+        <div class="niche-tags">
+          <span class="tag">Job Management</span>
+          <span class="tag">Websites</span>
+          <span class="tag">Quote Tools</span>
+          <span class="tag">Booking Systems</span>
+          <span class="tag">Social Media</span>
+        </div>
+      </div>
+      <div class="niche-card">
+        <div class="niche-num">02</div>
+        <h3 class="niche-title">E-commerce Businesses</h3>
+        <p class="niche-desc">Independent UK online stores that want to grow without the overhead of a large agency. We build and manage your store, connect your tools, automate your workflows, and provide the data to make smarter decisions.</p>
+        <div class="niche-tags">
+          <span class="tag">Store Setup</span>
+          <span class="tag">Automation</span>
+          <span class="tag">Dashboards</span>
+          <span class="tag">Email Marketing</span>
+          <span class="tag">AI Tools</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="services-header fade-up">
+      <div class="section-eyebrow">Services &amp; Pricing</div>
+      <div class="rule"></div>
+      <h2 class="section-title">Clear prices.<br><em>No surprises.</em></h2>
+      <p class="section-sub">Every engagement starts with a low-risk entry point, grows into a project, and transitions to an ongoing partnership.</p>
+    </div>
+
+    <div class="fade-up">
+      <div class="starter-block">
+        <div>
+          <div class="starter-tag">Starter Package</div>
+          <h3 class="starter-title">Quick Win — Your First Step</h3>
+          <p class="starter-desc">Low risk, fast delivery, real value. Choose one deliverable: a 3-page website, an AI FAQ chatbot, a booking form with automated responses, or a one-page business dashboard. The simplest way to see what we can do.</p>
+        </div>
+        <div class="starter-price-block">
+          <div class="starter-price">£299</div>
+          <div class="starter-price-label">Delivered in 5–7 days</div>
+          <a href="#contact" class="btn-primary" style="margin-top:1.2rem; font-size:0.7rem; padding:10px 20px;">Enquire →</a>
+        </div>
+      </div>
+
+      <div class="packages-grid">
+        <div class="pkg-card">
+          <div class="pkg-letter">Package A</div>
+          <div class="pkg-name">Digital Presence</div>
+          <div class="pkg-price">£1,499</div>
+          <div class="pkg-delivery">2–3 weeks delivery</div>
+          <div class="pkg-div"></div>
+          <p class="pkg-desc">Full website, AI chatbot integration, SEO setup, Google Analytics, and 30 days post-launch support.</p>
+          <div class="pkg-for">For tradespeople needing a professional online presence</div>
+        </div>
+        <div class="pkg-card">
+          <div class="pkg-letter">Package B</div>
+          <div class="pkg-name">Business Automation</div>
+          <div class="pkg-price">£2,499</div>
+          <div class="pkg-delivery">3–4 weeks delivery</div>
+          <div class="pkg-div"></div>
+          <p class="pkg-desc">Workflow automation, tool integrations, internal dashboards, and automated customer communication sequences.</p>
+          <div class="pkg-for">For businesses drowning in manual admin</div>
+        </div>
+        <div class="pkg-card">
+          <div class="pkg-letter">Package C</div>
+          <div class="pkg-name">Custom Software</div>
+          <div class="pkg-price">£3,999 – £7,999</div>
+          <div class="pkg-delivery">4–8 weeks delivery</div>
+          <div class="pkg-div"></div>
+          <p class="pkg-desc">Fully bespoke web application with multi-user roles, database design, AI integration, and full documentation.</p>
+          <div class="pkg-for">For businesses needing something that doesn't exist off the shelf</div>
+        </div>
+        <div class="pkg-card">
+          <div class="pkg-letter">Package D</div>
+          <div class="pkg-name">Digital Marketing</div>
+          <div class="pkg-price">£1,999</div>
+          <div class="pkg-delivery">3–4 weeks delivery</div>
+          <div class="pkg-div"></div>
+          <p class="pkg-desc">Social media setup, 12 posts, content calendar, Google Business Profile optimisation, and one paid ad campaign.</p>
+          <div class="pkg-for">For businesses with weak or absent social presence</div>
+        </div>
+        <div class="pkg-card">
+          <div class="pkg-letter">Package E</div>
+          <div class="pkg-name">E-commerce Setup</div>
+          <div class="pkg-price">£2,999 – £4,999</div>
+          <div class="pkg-delivery">4–6 weeks delivery</div>
+          <div class="pkg-div"></div>
+          <p class="pkg-desc">Full Shopify or WooCommerce store, 50 products uploaded, payment gateway, SEO, and a training session.</p>
+          <div class="pkg-for">For businesses selling online for the first time</div>
+        </div>
+        <div class="pkg-card">
+          <div class="pkg-letter">Package F</div>
+          <div class="pkg-name">E-commerce Growth</div>
+          <div class="pkg-price">£3,999 – £6,999</div>
+          <div class="pkg-delivery">5–8 weeks delivery</div>
+          <div class="pkg-div"></div>
+          <p class="pkg-desc">Package E plus custom design, email automation flows, social shops, Google Shopping feed, and 60 days support.</p>
+          <div class="pkg-for">For businesses making e-commerce a primary revenue channel</div>
+        </div>
+      </div>
+
+      <div class="retainer-label">Monthly Retainers — Ongoing Partnership</div>
+      <div class="retainer-grid">
+        <div class="ret-card">
+          <div class="ret-name">Maintenance</div>
+          <div class="ret-price">£299</div>
+          <div class="ret-period">per month</div>
+        </div>
+        <div class="ret-card">
+          <div class="ret-name">Growth</div>
+          <div class="ret-price">£599</div>
+          <div class="ret-period">per month · 8 hrs dev</div>
+        </div>
+        <div class="ret-card">
+          <div class="ret-name">Partner</div>
+          <div class="ret-price">£999</div>
+          <div class="ret-period">per month · 20 hrs dev</div>
+        </div>
+        <div class="ret-card">
+          <div class="ret-name">Digital Marketing</div>
+          <div class="ret-price">£699</div>
+          <div class="ret-period">per month · 12 posts</div>
+        </div>
+        <div class="ret-card">
+          <div class="ret-name">E-commerce Mgmt</div>
+          <div class="ret-price">£799</div>
+          <div class="ret-period">per month · full store</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="case-studies">
+  <div class="section-inner">
+    <div class="fade-up" style="margin-bottom:3rem">
+      <div class="section-eyebrow">Our Work</div>
+      <div class="rule"></div>
+      <h2 class="section-title">Real systems.<br><em>Real businesses.</em></h2>
+      <p class="section-sub">We don't talk about what we can build. Here is what we have already delivered and put into daily use.</p>
+    </div>
+
+    <div class="case-card fade-up">
+      <div class="case-header">
+        <div>
+          <div class="case-client">LED Component Manufacturing</div>
+          <h3 class="case-title">Real-Time Production Management System</h3>
+          <p class="case-summary">A manufacturing facility running 28 machines across five departments was managing its entire operation through spreadsheets and WhatsApp. We delivered a live web dashboard used by 50+ staff — from shop floor operators to the CEO — complete with AI-powered yield tracking, automated breakdown escalations, and real-time visibility for leadership. Accessible from any browser, on any device.</p>
+        </div>
+        <div class="case-metrics">
+          <div class="case-metric">
+            <span class="case-metric-val">50+</span>
+            <span class="case-metric-label">Daily users</span>
+          </div>
+          <div class="case-metric">
+            <span class="case-metric-val">28</span>
+            <span class="case-metric-label">Machines tracked</span>
+          </div>
+          <div class="case-metric">
+            <span class="case-metric-val">10</span>
+            <span class="case-metric-label">Role types</span>
+          </div>
+        </div>
+      </div>
+      <div class="case-features">
+        <span class="feature-pill">AI Photo Reading</span>
+        <span class="feature-pill">Real-time Dashboards</span>
+        <span class="feature-pill">Role-based Access</span>
+        <span class="feature-pill">Yield Analysis</span>
+        <span class="feature-pill">Machine Tracking</span>
+        <span class="feature-pill">Gantt Planning</span>
+        <span class="feature-pill">QC Checklists</span>
+        <span class="feature-pill">React + Supabase</span>
+      </div>
+    </div>
+
+    <div class="case-card fade-up">
+      <div class="case-header">
+        <div>
+          <div class="case-client">Indo Japan Horologicals — 30+ years in business</div>
+          <h3 class="case-title">GPS-Verified Sales Force Management System</h3>
+          <p class="case-summary">A 30-year-old LED lighting company had no real-time view of its field sales team. We delivered a cloud-based dashboard with GPS-verified visit logging, financial year-aware performance tracking, and consolidated reporting for leadership — giving a business built on three decades of relationships its first live view of daily sales activity.</p>
+        </div>
+        <div class="case-metrics">
+          <div class="case-metric">
+            <span class="case-metric-val">30+</span>
+            <span class="case-metric-label">Years of client</span>
+          </div>
+          <div class="case-metric">
+            <span class="case-metric-val">GPS</span>
+            <span class="case-metric-label">Verified visits</span>
+          </div>
+          <div class="case-metric">
+            <span class="case-metric-val">Live</span>
+            <span class="case-metric-label">Any device</span>
+          </div>
+        </div>
+      </div>
+      <div class="case-features">
+        <span class="feature-pill">GPS Verification</span>
+        <span class="feature-pill">Real-time Sync</span>
+        <span class="feature-pill">FY-aware Reporting</span>
+        <span class="feature-pill">Target Tracking</span>
+        <span class="feature-pill">PO Management</span>
+        <span class="feature-pill">Product Mix Analysis</span>
+        <span class="feature-pill">React + Supabase</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-inner">
+      <div class="fade-up">
+        <div class="section-eyebrow">About Pripar AI</div>
+        <div class="rule"></div>
+        <h2 class="section-title">A UK agency<br><em>built differently</em></h2>
+        <p class="section-sub">We are a UK-registered software agency that builds custom AI-powered tools for small businesses — lean, focused, and genuinely invested in your results.</p>
+        <ul class="about-points">
+          <li><span class="about-check">—</span><span><strong style="color:var(--white)">UK Registered Limited Company.</strong> Operating under UK law, invoicing in pounds sterling.</span></li>
+          <li><span class="about-check">—</span><span><strong style="color:var(--white)">AI-assisted development.</strong> We build faster using the latest AI tools and pass the savings directly to you.</span></li>
+          <li><span class="about-check">—</span><span><strong style="color:var(--white)">No bloated teams.</strong> Lean operation means lower costs, faster decisions, and a direct line to the people doing the work.</span></li>
+          <li><span class="about-check">—</span><span><strong style="color:var(--white)">You own everything.</strong> All code, all data, all assets. No lock-in, no recurring licence fees.</span></li>
+          <li><span class="about-check">—</span><span><strong style="color:var(--white)">Fixed-price projects.</strong> Clear retainers. No hidden costs, no scope creep surprises.</span></li>
+          <li><span class="about-check">—</span><span><strong style="color:var(--white)">Mobile by default.</strong> Every system we build works flawlessly on any device.</span></li>
+        </ul>
+      </div>
+      <div class="fade-up">
+        <div class="about-card">
+          <div class="about-card-label">Company</div>
+          <div class="about-card-val">Pripar AI Ltd — UK Registered Limited Company</div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-label">What We Build</div>
+          <div class="about-card-val">Custom Software · AI Tools · Automation · E-commerce · Digital Marketing</div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-label">Who We Serve</div>
+          <div class="about-card-val">UK Tradespeople &amp; E-commerce Businesses</div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-label">Technology</div>
+          <div class="about-card-val" style="margin-bottom:0.8rem">React · Supabase · PostgreSQL · AI APIs</div>
+          <div class="tech-grid">
+            <span class="tech-pill">React</span>
+            <span class="tech-pill">Supabase</span>
+            <span class="tech-pill">PostgreSQL</span>
+            <span class="tech-pill">Shopify</span>
+            <span class="tech-pill">AI / LLM</span>
+            <span class="tech-pill">Zapier</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="fade-up">
+      <div class="section-eyebrow">Contact</div>
+      <div class="rule"></div>
+      <h2 class="section-title">Let us talk about<br><em>your business</em></h2>
+      <p class="section-sub">Tell us what you are trying to solve. We respond within 24 hours with honest advice — whether or not we end up working together.</p>
+    </div>
+    <div class="contact-grid fade-up">
+      <div class="contact-card">
+        <div class="contact-card-label">Email</div>
+        <div class="contact-card-val"><a href="mailto:hello@pripar.com">hello@pripar.com</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-label">Website</div>
+        <div class="contact-card-val"><a href="https://pripar.com">www.pripar.com</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-label">Registered In</div>
+        <div class="contact-card-val">United Kingdom</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-label">Response Time</div>
+        <div class="contact-card-val">Within 24 hours</div>
+      </div>
+    </div>
+    <div class="contact-note fade-up">
+      <p>Not certain what you need yet? Most of our best work began with a vague problem, not a detailed brief.<br>
+      Write to us at <a href="mailto:hello@pripar.com">hello@pripar.com</a> and describe the challenge in plain English. We will take it from there.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Pripar <em>AI</em> Ltd</div>
+  <ul class="footer-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#case-studies">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Pripar AI Ltd · UK Registered · All rights reserved</div>
+</footer>
+
+<script>
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open')}
+function closeMenu(){document.getElementById('mobileMenu').classList.remove('open')}
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'),i*100);
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+const secs=document.querySelectorAll('section[id]');
+const links=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-90)cur=s.id});
+  links.forEach(l=>{l.style.color=l.getAttribute('href')==='#'+cur?'var(--white)':'';});
+});
+</script>
+</body>
+</html>

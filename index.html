@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pripar AI — Custom Software & AI Tools for UK Businesses</title>
+<title>Pripar AI — Custom Software, AI & Digital Services for UK Businesses</title>
 <meta name="description" content="Pripar AI builds custom software, AI tools, and digital solutions for UK tradespeople and e-commerce businesses. Real results, fast delivery, fair prices.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap');
@@ -226,6 +226,22 @@ section { padding: 90px 5%; position: relative; }
 .section-title .g2 { background: linear-gradient(135deg, var(--orange), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .section-title .g3 { background: linear-gradient(135deg, var(--cyan), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .section-sub { font-size: 1rem; color: var(--grey); max-width: 560px; line-height: 1.75; margin-bottom: 3rem; }
+
+
+/* ── WHAT WE DO ── */
+.svc-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 1rem; margin-bottom: 4.5rem; }
+.svc-card { background: white; border: 1.5px solid var(--border); border-radius: var(--radius2); padding: 1.4rem 1.2rem; transition: all 0.25s; position: relative; overflow: hidden; }
+.svc-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--violet), var(--cyan)); }
+.svc-card:nth-child(4n+2)::before { background: linear-gradient(90deg, var(--cyan), var(--green)); }
+.svc-card:nth-child(4n+3)::before { background: linear-gradient(90deg, var(--orange), var(--pink)); }
+.svc-card:nth-child(4n+4)::before { background: linear-gradient(90deg, var(--pink), var(--violet)); }
+.svc-card:hover { transform: translateY(-4px); box-shadow: var(--shadow2); border-color: var(--violet); }
+.svc-ico { font-size: 1.5rem; margin-bottom: 0.7rem; }
+.svc-name { font-family: var(--font-d); font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+.svc-desc { font-size: 0.78rem; color: var(--grey); line-height: 1.6; }
+@media (max-width: 1100px) { .svc-grid { grid-template-columns: repeat(3,1fr); } }
+@media (max-width: 700px) { .svc-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .svc-grid { grid-template-columns: 1fr; } }
 
 /* ── WHO WE HELP ── */
 #niches { background: var(--bg2); }
@@ -589,9 +605,9 @@ footer {
         of your competition
       </h1>
       <p class="hero-sub">
-        We build custom AI-powered software, automation tools, and digital
-        solutions for UK tradespeople and e-commerce businesses —
-        delivered in weeks, not months. Fixed prices. No jargon.
+        Custom AI software, websites, marketing and customer support for UK
+        tradespeople and e-commerce businesses — everything you need to
+        win and keep customers. Fixed prices. No jargon.
       </p>
       <div class="hero-actions">
         <a href="#contact" class="btn-primary">Start a conversation →</a>
@@ -695,6 +711,23 @@ footer {
 <!-- SERVICES -->
 <section id="services">
   <div class="section-inner">
+    <div class="fade-up" style="margin-bottom:2.5rem">
+      <span class="section-label sl-violet">What We Do</span>
+      <h2 class="section-title">One team for your<br><span class="g1">software and growth</span></h2>
+      <p class="section-sub">Custom software and AI tools, plus the marketing and customer-facing services that bring in and look after your customers.</p>
+    </div>
+    <div class="svc-grid fade-up">
+      <div class="svc-card"><div class="svc-ico">🔍</div><div class="svc-name">SEO</div><div class="svc-desc">Get found on Google by customers already searching for what you sell. Local and technical SEO, content and reporting.</div></div>
+      <div class="svc-card"><div class="svc-ico">📈</div><div class="svc-name">Digital Marketing</div><div class="svc-desc">Joined-up campaigns across search, social and email, planned around leads and sales rather than vanity numbers.</div></div>
+      <div class="svc-card"><div class="svc-ico">✉️</div><div class="svc-name">Email Marketing</div><div class="svc-desc">Newsletters, welcome flows and win-back sequences that bring past customers back, written and set up for you.</div></div>
+      <div class="svc-card"><div class="svc-ico">🎯</div><div class="svc-name">Online Advertising</div><div class="svc-desc">Google, Meta and LinkedIn ads with clear budgets, tracking and monthly reporting so you see what each pound does.</div></div>
+      <div class="svc-card"><div class="svc-ico">💻</div><div class="svc-name">Website Development</div><div class="svc-desc">Fast, mobile-friendly websites and web apps, from a simple brochure site to a custom online shop or booking system.</div></div>
+      <div class="svc-card"><div class="svc-ico">📣</div><div class="svc-name">Social Media Management</div><div class="svc-desc">Planning, posting and community replies across your channels, so your business stays active without you doing it.</div></div>
+      <div class="svc-card"><div class="svc-ico">💬</div><div class="svc-name">Live Chat Support</div><div class="svc-desc">Website chat staffed by people and backed by an AI assistant, so visitors get answers quickly and enquiries are not lost.</div></div>
+      <div class="svc-card"><div class="svc-ico">🧲</div><div class="svc-name">B2B &amp; B2C Lead Generation</div><div class="svc-desc">Targeted outreach and campaigns that put qualified enquiries in front of your sales team, for business or consumer markets.</div></div>
+      <div class="svc-card"><div class="svc-ico">📞</div><div class="svc-name">Inbound Call Centre</div><div class="svc-desc">Your calls answered professionally, messages taken, bookings made and urgent matters passed on to you.</div></div>
+      <div class="svc-card"><div class="svc-ico">🤝</div><div class="svc-name">Customer Services</div><div class="svc-desc">Email, chat and phone support handled in your brand's voice, with clear escalation back to you when needed.</div></div>
+    </div>
     <div class="fade-up" style="margin-bottom:3rem">
       <span class="section-label sl-orange">Services &amp; Pricing</span>
       <h2 class="section-title">Clear prices.<br><span class="g2">No surprises.</span></h2>

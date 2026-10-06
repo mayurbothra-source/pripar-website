@@ -1256,42 +1256,75 @@ function applyRegion(code, save){
   return r;
 }
 
-function detectRegion(){
+const EU27=['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE'];
+function countryToRegion(cc){
+  cc=(cc||'').toUpperCase();
+  if(cc==='GB'||cc==='UK') return 'uk';
+  if(cc==='US') return 'us';
+  if(cc==='AU') return 'au';
+  if(cc==='SG') return 'sg';
+  if(cc==='IN') return 'in';
+  if(EU27.indexOf(cc)>-1) return 'eu';
+  return 'uk';
+}
+function tzRegion(){
   let tz=''; try{ tz=Intl.DateTimeFormat().resolvedOptions().timeZone||''; }catch(e){}
   if(/^Asia\/(Kolkata|Calcutta)$/.test(tz)) return 'in';
   if(tz==='Asia/Singapore') return 'sg';
   if(/^Australia\//.test(tz)) return 'au';
   if(/^America\//.test(tz) && !/^America\/(Argentina|Sao_Paulo|Bogota|Lima|Santiago|Caracas|Mexico_City)/.test(tz)) return 'us';
-  if(/^Europe\//.test(tz) && tz!=='Europe/London' && tz!=='Europe/Dublin' && tz!=='Europe/Belfast') return 'eu';
+  if(/^Europe\//.test(tz) && !/^Europe\/(London|Belfast|Isle_of_Man|Jersey|Guernsey)$/.test(tz)) return 'eu';
   return null;
+}
+function fetchJson(url,ms){
+  return new Promise((resolve,reject)=>{
+    const ctl=('AbortController' in window)?new AbortController():null;
+    const t=setTimeout(()=>{ if(ctl) ctl.abort(); reject(new Error('timeout')); },ms);
+    fetch(url,ctl?{signal:ctl.signal}:{}).then(r=>r.json()).then(j=>{ clearTimeout(t); resolve(j); }).catch(e=>{ clearTimeout(t); reject(e); });
+  });
+}
+function geoRegion(){
+  // asks a free lookup service which country the visitor's connection is in; falls back to a second one
+  return fetchJson('https://api.country.is/',3000).then(j=>j&&j.country?countryToRegion(j.country):Promise.reject())
+    .catch(()=>fetchJson('https://ipwho.is/?fields=success,country_code',3000).then(j=>j&&j.success!==false&&j.country_code?countryToRegion(j.country_code):Promise.reject()));
+}
+function showRegionNotice(r){
+  const bar=document.getElementById('regionBar'); if(!bar) return;
+  document.getElementById('regionBarText').textContent='Showing prices in '+r.sym+' ('+r.cur+') for '+r.name+'.';
+  const y=document.getElementById('rbYes'), n=document.getElementById('rbNo');
+  y.textContent='Got it'; n.textContent='Change country';
+  bar.classList.add('show');
+  const hide=()=>bar.classList.remove('show');
+  y.onclick=hide;
+  n.onclick=()=>{ hide(); const s=document.getElementById('regionSel'); if(s){ s.focus(); try{ s.showPicker&&s.showPicker(); }catch(e){} } };
+  setTimeout(hide,9000);
 }
 
 (function initRegion(){
   const sel=document.getElementById('regionSel');
   ORDER.forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=REGIONS[c].flag+' '+REGIONS[c].short+' · '+REGIONS[c].cur; sel.appendChild(o); });
-  sel.addEventListener('change',()=>{ applyRegion(sel.value,true); });
+  sel.addEventListener('change',()=>{ safeSet('pripar_choice','manual'); applyRegion(sel.value,true); });
 
-  let q=null; try{ q=new URLSearchParams(location.search).get('r'); }catch(e){}
-  q=(q||'').toLowerCase();
-  const saved=safeGet('pripar_region');
-  let start='uk';
-  if(REGIONS[q]){ start=q; safeSet('pripar_region',q); }
-  else if(REGIONS[saved]) start=saved;
-  applyRegion(start,false);
+  let q=''; try{ q=(new URLSearchParams(location.search).get('r')||'').toLowerCase(); }catch(e){}
+  if(q==='auto'){ safeSet('pripar_region',''); safeSet('pripar_geo',''); }   // pripar.com/?r=auto forces a fresh detection
+  const manual = REGIONS[q] ? q : (safeGet('pripar_choice')==='manual' && REGIONS[safeGet('pripar_region')] ? safeGet('pripar_region') : null);
+  if(REGIONS[q]){ safeSet('pripar_region',q); safeSet('pripar_choice','manual'); }
 
-  // gentle suggestion for first-time visitors (never switches on its own)
-  if(!REGIONS[q] && !REGIONS[saved]){
-    const d=detectRegion();
-    if(d && d!=='uk' && !safeGet('pripar_region_dismissed')){
-      const r=REGIONS[d];
-      document.getElementById('regionBarText').textContent='Looks like you are in '+r.name+'. Show prices in '+r.sym+' ('+r.cur+')?';
-      const y=document.getElementById('rbYes'), n=document.getElementById('rbNo');
-      y.textContent='Yes, show '+r.cur; n.textContent='Keep '+REGIONS.uk.cur;
-      const bar=document.getElementById('regionBar'); bar.classList.add('show');
-      y.onclick=()=>{ applyRegion(d,true); bar.classList.remove('show'); };
-      n.onclick=()=>{ safeSet('pripar_region_dismissed','1'); bar.classList.remove('show'); };
-    }
-  }
+  if(manual){ applyRegion(manual,false); return; }
+
+  // no deliberate choice yet: detect automatically
+  const cached=safeGet('pripar_geo');
+  if(REGIONS[cached]){ applyRegion(cached,false); return; }
+  applyRegion('uk',false);
+  const tzr=tzRegion();
+  if(tzr && tzr!=='uk') applyRegion(tzr,false);          // instant best guess from the browser's time zone
+  geoRegion().then(code=>{
+    safeSet('pripar_geo',code);
+    if(code!==(document.documentElement.getAttribute('data-region'))) applyRegion(code,false);
+    if(code!=='uk') showRegionNotice(REGIONS[code]);
+  }).catch(()=>{
+    if(tzr && tzr!=='uk'){ safeSet('pripar_geo',tzr); showRegionNotice(REGIONS[tzr]); }
+  });
 })();
 
 // FAQ accordion

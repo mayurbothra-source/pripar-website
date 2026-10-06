@@ -1,5 +1,11 @@
 # Pripar AI website
 
+One site, six regions. The region picker (top right) switches prices, currency and wording.
+Region links: pripar.com/us  /eu  /au  /sg  /in  (UK is the default at pripar.com)
+
+## Changing prices
+Open index.html and search for `const REGIONS`. Each region has a `p:{...}` block of numbers. Edit the numbers, commit, done.
+
 ## Adding a new redirect (pripar.com/[name])
 
 To add pripar.com/newproject pointing to an external URL:
@@ -11,4 +17,4 @@ To add pripar.com/newproject pointing to an external URL:
 5. The route pripar.com/newproject will be live within 2–3 minutes
 
 Use this for: new client demos, new products, new tools, campaign landing pages.
-Current redirects: /chatbot /nestiq /tradedesk /marketing /wealthguard /doctrack /ch-ai /prodtrack /ijh
+Current redirects: /chatbot /nestiq /tradedesk /marketing /wealthguard /doctrack /ch-ai /prodtrack /ijh /us /eu /au /sg /in

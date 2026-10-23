@@ -308,6 +308,17 @@ section { padding: 90px 5%; position: relative; }
   font-weight: 800; font-size: 0.82rem; text-decoration: none;
   transition: all 0.2s;
 }
+.starter-pay { background: linear-gradient(135deg,#F97316,#EC4899); color: white; margin-left: 8px; }
+.pay-overlay { position:fixed; inset:0; z-index:300; background:rgba(26,26,46,0.55); display:none; align-items:center; justify-content:center; padding:20px; }
+.pay-overlay.show { display:flex; }
+.pay-box { background:#fff; border-radius:22px; padding:2rem 1.8rem; max-width:420px; width:100%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.25); }
+.pay-box h3 { font-family:var(--font-d); font-size:1.3rem; margin-bottom:.6rem; }
+.pay-box p { font-size:.92rem; color:var(--grey); line-height:1.65; margin-bottom:1.2rem; }
+.pay-box .pay-ico { font-size:2.4rem; margin-bottom:.5rem; }
+.pay-box button { font-family:var(--font-b); font-weight:700; font-size:.88rem; border:none; border-radius:100px; padding:11px 28px; cursor:pointer; background:linear-gradient(135deg,var(--violet),var(--cyan)); color:#fff; }
+.legal-links { margin-top: 6px; font-size: 0.72rem; }
+.legal-links a { color: rgba(255,255,255,0.55); text-decoration: none; margin: 0 8px; }
+.legal-links a:hover { color: white; }
 .starter-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
 
 .packages-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-bottom: 1.5rem; }
@@ -775,6 +786,7 @@ footer {
           <div class="starter-price" data-p="qw">£299</div>
           <div class="starter-del">Delivered in 5–7 days</div>
           <a href="#contact" class="starter-btn">Get started →</a>
+          <a href="#" id="payBtn" class="starter-btn starter-pay" target="_blank" rel="noopener" style="display:none">Pay now →</a>
         </div>
       </div>
       <div class="packages-grid">
@@ -1156,7 +1168,10 @@ footer {
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <div class="footer-copy">© 2026 Pripar AI · All rights reserved</div>
+  <div class="footer-copy">© 2026 Pripar AI · All rights reserved
+    <div class="legal-links"><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a><a href="/refunds/">Refunds</a></div>
+    <div style="margin-top:6px">Pripar AI is a brand of IJ Semiconic Private Limited. Payments are processed securely by Razorpay.</div>
+  </div>
 </footer>
 
 <script>
@@ -1223,9 +1238,77 @@ const REGIONS = {
     p:{qw:9999,a:29999,b:49999,c:[79999,199999],d:34999,e:[39999,79999],f:[69999,129999],m:4999,g:9999,p:19999,dm:14999,ec:17999,seo:9999}}
 };
 const ORDER=['uk','us','eu','au','sg','in'];
+// ── RAZORPAY PAYMENTS ──
+// PAY_API: the address of your payment functions on Vercel, e.g. 'https://pripar-payments.vercel.app'  (no slash at the end).
+// While PAY_API is empty the "Pay now" button falls back to PAY_LINKS (Razorpay Payment Page links), or stays hidden.
+const PAY_API = '';
+const PAY_LINKS = { uk:'', us:'', eu:'', au:'', sg:'', in:'' };
+
+function payMessage(icon,title,text){
+  document.getElementById('payMsgIcon').textContent=icon;
+  document.getElementById('payMsgTitle').textContent=title;
+  document.getElementById('payMsgText').textContent=text;
+  document.getElementById('payMsg').classList.add('show');
+}
+function loadCheckoutScript(){
+  return new Promise((resolve,reject)=>{
+    if(window.Razorpay) return resolve();
+    const sc=document.createElement('script'); sc.src='https://checkout.razorpay.com/v1/checkout.js';
+    sc.onload=()=>resolve(); sc.onerror=()=>reject(new Error('script'));
+    document.head.appendChild(sc);
+  });
+}
+function postJson(url,body){
+  return fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+    .then(r=>r.json().catch(()=>({})).then(j=>({ok:r.ok,status:r.status,data:j})));
+}
+async function startCheckout(btn){
+  const region=document.documentElement.getAttribute('data-region')||'uk';
+  const label=btn.textContent;
+  btn.textContent='Opening secure payment…'; btn.style.pointerEvents='none';
+  const reset=()=>{ btn.textContent=label; btn.style.pointerEvents=''; };
+  try{
+    const [o]=await Promise.all([postJson(PAY_API+'/api/create-order',{product:'qw',region:region}),loadCheckoutScript()]);
+    if(!o.ok||!o.data.order_id){ reset(); payMessage('⚠️','Payment is not available right now',(o.data&&o.data.error?o.data.error+'. ':'')+'Please email hello@pripar.com and we will arrange payment for you.'); return; }
+    const d=o.data;
+    const rz=new Razorpay({
+      key:d.key_id, amount:d.amount, currency:d.currency, order_id:d.order_id,
+      name:'Pripar AI', description:d.description||'Pripar AI Quick Win',
+      theme:{color:'#6C3BF5'},
+      notes:{region:region},
+      modal:{ ondismiss:()=>{ reset(); } },
+      handler:async function(resp){
+        reset();
+        try{
+          const v=await postJson(PAY_API+'/api/verify-payment',{razorpay_order_id:resp.razorpay_order_id,razorpay_payment_id:resp.razorpay_payment_id,razorpay_signature:resp.razorpay_signature});
+          if(v.ok&&v.data.ok){ payMessage('✅','Payment received — thank you!','Your payment reference is '+resp.razorpay_payment_id+'. We will email you within 24 hours to start your Quick Win. A receipt is sent to you by Razorpay.'); }
+          else { payMessage('⚠️','We could not confirm your payment','If money left your account, please email hello@pripar.com with reference '+resp.razorpay_payment_id+' and we will sort it out straight away.'); }
+        }catch(e){ payMessage('⚠️','We could not confirm your payment','Please email hello@pripar.com with reference '+resp.razorpay_payment_id+' and we will check it straight away.'); }
+      }
+    });
+    rz.on('payment.failed',function(f){ reset(); payMessage('❌','Payment did not go through',(f&&f.error&&f.error.description?f.error.description+'. ':'')+'You have not been charged. Please try again or use another card.'); });
+    rz.open();
+  }catch(e){
+    reset(); payMessage('⚠️','Payment is not available right now','Please check your connection and try again, or email hello@pripar.com.');
+  }
+}
+function updatePayButton(r){
+  const b=document.getElementById('payBtn'); if(!b) return;
+  const label='Pay '+money(r,r.p.qw)+' now →';
+  if(PAY_API){
+    b.textContent=label; b.href='#'; b.removeAttribute('target'); b.style.display='inline-block';
+    b.onclick=function(e){ e.preventDefault(); startCheckout(b); };
+    return;
+  }
+  const link=PAY_LINKS[r.code]||'';
+  if(/^https:\/\/(rzp\.io|pages\.razorpay\.com|razorpay\.com)\//.test(link)){
+    b.href=link; b.target='_blank'; b.textContent=label; b.style.display='inline-block'; b.onclick=null;
+  } else { b.style.display='none'; b.removeAttribute('href'); b.onclick=null; }
+}
 const cap = t => t.charAt(0).toUpperCase()+t.slice(1);
 function money(r,n){ return r.sym + n.toLocaleString(r.loc,{maximumFractionDigits:0}); }
 function price(r,v){ return Array.isArray(v) ? money(r,v[0])+'–'+money(r,v[1]) : money(r,v); }
+document.addEventListener('click',function(e){ if(e.target&&e.target.id==='payMsgClose'||e.target&&e.target.id==='payMsg'){ document.getElementById('payMsg').classList.remove('show'); } });
 function safeGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
 function safeSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
 
@@ -1248,6 +1331,7 @@ function applyRegion(code, save){
   document.title='Pripar AI — Custom Software, AI & Digital Services for '+r.adj+' Businesses';
   const md=document.querySelector('meta[name="description"]');
   if(md) md.setAttribute('content','Pripar AI builds custom software, AI tools, websites, marketing and customer support for '+r.adj+' '+r.trades+' and e-commerce businesses. Fixed prices, fast delivery.');
+  updatePayButton(r);
   document.documentElement.setAttribute('data-region',r.code);
   document.querySelectorAll('.region-select').forEach(s=>{ s.value=r.code; });
   // answers already open need their height recalculated
@@ -1342,5 +1426,6 @@ function toggleFaq(btn) {
   }
 }
 </script>
+<div class="pay-overlay" id="payMsg" role="dialog" aria-live="polite"><div class="pay-box"><div class="pay-ico" id="payMsgIcon"></div><h3 id="payMsgTitle"></h3><p id="payMsgText"></p><button type="button" id="payMsgClose">Close</button></div></div>
 </body>
 </html>
